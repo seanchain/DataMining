@@ -5,7 +5,7 @@ class Distance
   def initialize a, b
     @x, @y = a, b #初始化两个对象
   end
-  def count
+  def binaryCount
     @f00, @f01, @f10, @f11 = 0, 0, 0, 0
     if @x.size != @y.size
       puts "两对象属性个数不同！"
@@ -19,6 +19,7 @@ class Distance
     end
   end
   def SMC #计算两个对象之间的简单匹配系数Simple Matching Coefficient
+    self.binaryCount
     begin
       smc = (@f11 + @f00).to_f / (@f00 + @f01 + @f10 + @f11)
       puts smc
@@ -27,12 +28,64 @@ class Distance
     end
   end
   def Jaccard #计算两个对象之间的Jaccard系数
+    self.binaryCount
     begin
       jaccard = @f11.to_f / (@f01 + @f10 + @f11)
       puts jaccard
     rescue => ex
       puts ex.message
     end
+  end
+  def Cosine #余弦相似度
+    if @x.size != @y.size
+      puts "两对象属性个数不同！"
+      exit
+    end
+    head = 0
+    (0...@x.size).each do |i|
+      head += @x[i] * @y[i]
+    end
+    xtail, ytail = 0, 0
+    @x.each do |i|
+      xtail += i * i
+    end
+    @y.each do |i|
+      ytail += i * i
+    end
+    xtail = Math::sqrt xtail
+    ytail = Math::sqrt ytail
+    tail = xtail * ytail
+    begin
+      cosine = head.to_f / tail
+      printf "%.2f\n", cosine
+    rescue => ex
+      puts ex.message
+    end
+  end
+  def Tanimoto #Tanimoto系数，又名广义Jaccard系数
+    if @x.size != @y.size
+      puts "两对象属性个数不同！"
+      exit
+    end
+    head = 0
+    (0...@x.size).each do |i|
+      head += @x[i] * @y[i]
+    end
+    xtail, ytail = 0, 0
+    @x.each do |i|
+      xtail += i * i
+    end
+    @y.each do |i|
+      ytail += i * i
+    end
+    tail = xtail + ytail - head
+    begin
+      ej = head.to_f / tail
+      printf "%.2f\n", ej
+    rescue => ex
+      puts ex.message
+    end
+
   end
 end
 
