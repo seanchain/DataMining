@@ -7,7 +7,10 @@ class Distance
   end
   def count
     @f00, @f01, @f10, @f11 = 0, 0, 0, 0
-    return if @x.size != @y.size
+    if @x.size != @y.size
+      puts "两对象属性个数不同！"
+      exit
+    end
     (0...@x.size).each do |i|
       @f00 += 1 if @x[i] == 0 && @y[i] == 0
       @f01 += 1 if @x[i] == 0 && @y[i] == 1
@@ -33,9 +36,4 @@ class Distance
   end
 end
 
-a = [1, 0, 0, 0, 0, 0, 0, 0, 0]
-b = [0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
 
-d = Distance.new a, b
-d.SMC
-d.Jaccard
