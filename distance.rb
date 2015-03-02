@@ -85,8 +85,18 @@ class Distance
     rescue => ex
       puts ex.message
     end
-
+  end
+  def PearsonCorr #皮尔森相关
+    meanx = @x.reduce(0){|sum, value| sum += value} / @x.size
+    meany = @y.reduce(0){|sum, value| sum += value} / @y.size
+    cov, sx, sy = 0, 0, 0
+    (0...@x.size).each do |i|
+      cov += (@x[i] - meanx) * (@y[i] - meany)
+      sx += (@x[i] - meanx) * (@x[i] - meanx)
+      sy += (@y[i] - meany) * (@y[i] - meany)
+    end
+    cov /= (@x.size - 1)
+    sx = Math::sqrt(sx /= (@x.size - 1))
+    sy = Math::sqrt(sy /= (@y.size - 1))
   end
 end
-
-
